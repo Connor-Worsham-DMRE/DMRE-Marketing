@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8e9683de7eb5b91440262891c55b8035 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/marslan390/BeautifyMarker/leaflet-beautify-marker-icon.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marslan390/BeautifyMarker/leaflet-beautify-marker-icon.min.css"/>
+</head>
+<body>
+    
+    
+<style>
+    /* DMRE Table Styling */
+    .dmre-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: none;
+        font-family: Arial, sans-serif;
+        font-size: 10px; /* Set the font size for the table */
+    }
+    .dmre-table th, .dmre-table td {
+        border: none; /* Remove all borders */
+        padding: 8px 4px; /* Increase padding to adjust row height */
+        line-height: 1.4; /* Increase line height for additional spacing */
+    }
+    .dmre-table th {
+        background-color: #004080;
+        color: white;
+        text-align: center;
+        border-bottom: 4px solid #004080; /* Add bottom border to header */
+    }
+    .dmre-table tr {
+        border-bottom: 1px solid #004080; /* Add bottom border to each row */
+    }
+    .dmre-table td {
+        text-align: center;
+    }
+    .dmre-table td:nth-child(2) {
+        text-align: left;
+    }
+    .table-container {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+</style>
+    
+<style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+    
+    #map {
+        margin-top: 60px; /* Adjust this value based on the header height */
+        margin-bottom: 40px; /* Adjust this value based on the footer height */
+    }
+    .leaflet-control {
+        background-color: white;
+        padding: 10px;
+    }
+    .sidebar {
+        height: 100%;
+        width: 500px; /* Set initial width to keep the sidebar open */
+        position: fixed;
+        z-index: 1001;
+        top: 0;
+        right: 0;
+        background-color: #F2F3F5; /* Change the background color to white */
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        color: black; /* Adjust text color to ensure readability */
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .sidebar-content {
+        padding: 20px; /* Add padding to the content inside the sidebar */
+    }
+    .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+    .sidebar a:hover {
+        color: #f1f1f1;
+    }
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+        color: black; /* Adjust close button color for better visibility */
+    }
+    #openSidebarBtn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #004080;
+        color: white;
+        border: none;
+        padding: 10px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 0; /* Move button behind sidebar initially */
+    }
+    /* Open the sidebar by default */
+    .overlay {
+        display: none; /* Set display to block to show the overlay */
+    }
+</style>
+    
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="sidebar-content">
+            <table border="1" class="dataframe dmre-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Number</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1600 S Great SW Pkwy - 16.55 Acres</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>75 Regency Parkway - 20.43 Acres</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>8920 Freeport Pkwy - 19.96 Acres</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>SEQ of Championship Pkwy and 114 - 18 Acres</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>SWQ of I-35W and McPherson Blvd - 16.68 Acres</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>4200 Duncanville Road - 8.01 Acres</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>5500 Nafex Way - 23.48 Acres</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>2100 Mustang Dr - 33.7 Acres</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>SWC of Rockhill Pkwy and Teel Pkwy - 71.93 Acres</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>8032 Ledbetter Dr - 25.54 Acres</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>3010 W Jefferson Blvd - 17.4 Acres</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>2917 Chesser Boyer Rd - 22.34 Acres</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>413 E Belt Line Rd - 10.53 Acres</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>4590 Carey St. - 21.68 Acres</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>4851 E Loop 820 S - 17 Acres</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>4 Crowley Dr - 5.77 Acres</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>Eight Diamonds - 13015 South Fwy - 27 Acres</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>7100 Anglin Dr - 27.23 Acres</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>296 N Freeport Pkwy - 10.89 Acres</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>2323 FM 546 - 42.82 Acres</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>3991 N McDonald St - 22 Acres</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>715 E Rendon Crowley Rd - 20 Acres</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+    </div>
+    <button id="openSidebarBtn" onclick="openNav()"><i class="fas fa-info-circle"></i></button>
+    <div id="overlay" class="overlay" onclick="closeNav()"></div>
+    
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "500px";
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("openSidebarBtn").style.zIndex = "0";  // Move button behind sidebar
+    }
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("openSidebarBtn").style.zIndex = "1002";  // Move button back to front
+    }
+</script>
+    
+            <div class="folium-map" id="map_8e9683de7eb5b91440262891c55b8035" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8e9683de7eb5b91440262891c55b8035 = L.map(
+                "map_8e9683de7eb5b91440262891c55b8035",
+                {
+                    center: [32.82587024746166, -96.8623299615099],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 10,
+                    zoomControl: false,
+                    preferCanvas: false,
+                    title: "Industrial Experience Map v2",
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_75e3dd09e0543fe851d6edfac8d637db = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_8e9683de7eb5b91440262891c55b8035);
+        
+    
+            var tile_layer_c8a9aec60aa3af930f8fe1f76d00df4b = L.tileLayer(
+                "https://api.mapbox.com/styles/v1/11ofbus/clyhf79r101ho01qrh1qbdync/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiMTFvZmJ1cyIsImEiOiJja3JkcTZvemQ1ZzBnMnVtbmNndm96dXhjIn0.ZeJ6cez7vss34QEm6bcuAQ",
+                {"attribution": "Mapbox", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_8e9683de7eb5b91440262891c55b8035);
+        
+    
+            var marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b = L.markerClusterGroup(
+                {"disableClusteringAtZoom": true}
+            );
+            map_8e9683de7eb5b91440262891c55b8035.addLayer(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var marker_7937c1a3c455a05fefafe38ff7ea4e5e = L.marker(
+                [32.72304586, -97.045326],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_919bf4f59c8ebb6b07fd330264bd3ea1 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "1", "textColor": "white"}
+            )
+            marker_7937c1a3c455a05fefafe38ff7ea4e5e.setIcon(beautify_icon_919bf4f59c8ebb6b07fd330264bd3ea1);
+        
+    
+        var popup_f926439b85a06beafa6feb8105be214b = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_515c32afb99d353c8069610937ae4ac7 = $(`<div id="html_515c32afb99d353c8069610937ae4ac7" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 1<br>                                                    <b>Property Name:</b> 1600 S Great SW Pkwy - 16.55 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_f926439b85a06beafa6feb8105be214b.setContent(html_515c32afb99d353c8069610937ae4ac7);
+            
+        
+
+        marker_7937c1a3c455a05fefafe38ff7ea4e5e.bindPopup(popup_f926439b85a06beafa6feb8105be214b)
+        ;
+
+        
+    
+    
+            var marker_0f6c35be45617ee6e13e280845a93c69 = L.marker(
+                [32.560702, -97.104622],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_558296ae595164dc76867fbd7e21cafd = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "2", "textColor": "white"}
+            )
+            marker_0f6c35be45617ee6e13e280845a93c69.setIcon(beautify_icon_558296ae595164dc76867fbd7e21cafd);
+        
+    
+        var popup_8543ea08338fbfdc5154fd3029a57ff2 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_69ccd830a332545190f493de24235ed7 = $(`<div id="html_69ccd830a332545190f493de24235ed7" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 2<br>                                                    <b>Property Name:</b> 75 Regency Parkway - 20.43 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_8543ea08338fbfdc5154fd3029a57ff2.setContent(html_69ccd830a332545190f493de24235ed7);
+            
+        
+
+        marker_0f6c35be45617ee6e13e280845a93c69.bindPopup(popup_8543ea08338fbfdc5154fd3029a57ff2)
+        ;
+
+        
+    
+    
+            var marker_0e69388a59bcaa864e766c62f6e12d52 = L.marker(
+                [32.9307917076923, -97.00700213846153],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_6b8388834892e0ac756a5bfd7def1e44 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "3", "textColor": "white"}
+            )
+            marker_0e69388a59bcaa864e766c62f6e12d52.setIcon(beautify_icon_6b8388834892e0ac756a5bfd7def1e44);
+        
+    
+        var popup_71e67e267e6a6f33953810b5db572529 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_fbeec449067927da22f386c86f8ededa = $(`<div id="html_fbeec449067927da22f386c86f8ededa" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 3<br>                                                    <b>Property Name:</b> 8920 Freeport Pkwy - 19.96 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_71e67e267e6a6f33953810b5db572529.setContent(html_fbeec449067927da22f386c86f8ededa);
+            
+        
+
+        marker_0e69388a59bcaa864e766c62f6e12d52.bindPopup(popup_71e67e267e6a6f33953810b5db572529)
+        ;
+
+        
+    
+    
+            var marker_755f82e27eec41962d2367f395a05db1 = L.marker(
+                [33.02448577, -97.28153221],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_016f252fe402641dc6cad946b1d7ba30 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "4", "textColor": "white"}
+            )
+            marker_755f82e27eec41962d2367f395a05db1.setIcon(beautify_icon_016f252fe402641dc6cad946b1d7ba30);
+        
+    
+        var popup_e897442506a8c14b72bfe1de148df9bc = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_c44d81cfb0351d557f691da279593e8b = $(`<div id="html_c44d81cfb0351d557f691da279593e8b" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 4<br>                                                    <b>Property Name:</b> SEQ of Championship Pkwy and 114 - 18 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_e897442506a8c14b72bfe1de148df9bc.setContent(html_c44d81cfb0351d557f691da279593e8b);
+            
+        
+
+        marker_755f82e27eec41962d2367f395a05db1.bindPopup(popup_e897442506a8c14b72bfe1de148df9bc)
+        ;
+
+        
+    
+    
+            var marker_ce3bb8b4e233c84192c2b2e05dfb474b = L.marker(
+                [32.59613384928568, -97.32152203970796],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_46a93c74b3b04173f5005064f68261bb = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "5", "textColor": "white"}
+            )
+            marker_ce3bb8b4e233c84192c2b2e05dfb474b.setIcon(beautify_icon_46a93c74b3b04173f5005064f68261bb);
+        
+    
+        var popup_269f65c315a763405cc0285316f43881 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_6b07e0a4762147a1bcd012c36f81eca6 = $(`<div id="html_6b07e0a4762147a1bcd012c36f81eca6" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 5<br>                                                    <b>Property Name:</b> SWQ of I-35W and McPherson Blvd - 16.68 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_269f65c315a763405cc0285316f43881.setContent(html_6b07e0a4762147a1bcd012c36f81eca6);
+            
+        
+
+        marker_ce3bb8b4e233c84192c2b2e05dfb474b.bindPopup(popup_269f65c315a763405cc0285316f43881)
+        ;
+
+        
+    
+    
+            var marker_9960a211b276382f5b58792364bfc3f9 = L.marker(
+                [32.692360694340294, -96.90986233266155],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_aca427f3288c61b20a4635b936d4373a = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "6", "textColor": "white"}
+            )
+            marker_9960a211b276382f5b58792364bfc3f9.setIcon(beautify_icon_aca427f3288c61b20a4635b936d4373a);
+        
+    
+        var popup_639cd4305cd077a610e199af58758fe4 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_acd6325f1171860ed04d0a160c44c5c1 = $(`<div id="html_acd6325f1171860ed04d0a160c44c5c1" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 6<br>                                                    <b>Property Name:</b> 4200 Duncanville Road - 8.01 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_639cd4305cd077a610e199af58758fe4.setContent(html_acd6325f1171860ed04d0a160c44c5c1);
+            
+        
+
+        marker_9960a211b276382f5b58792364bfc3f9.bindPopup(popup_639cd4305cd077a610e199af58758fe4)
+        ;
+
+        
+    
+    
+            var marker_963d38dc7b4b16a7cb931f01f8143ba9 = L.marker(
+                [32.84608615730852, -97.33195343507874],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_95e8406213ee214e9b33e4f572869383 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "7", "textColor": "white"}
+            )
+            marker_963d38dc7b4b16a7cb931f01f8143ba9.setIcon(beautify_icon_95e8406213ee214e9b33e4f572869383);
+        
+    
+        var popup_dd0beee424f8820f1e159e921a1adf52 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_f86e07b941405a0cde5253c1bcaa76ce = $(`<div id="html_f86e07b941405a0cde5253c1bcaa76ce" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 7<br>                                                    <b>Property Name:</b> 5500 Nafex Way - 23.48 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_dd0beee424f8820f1e159e921a1adf52.setContent(html_f86e07b941405a0cde5253c1bcaa76ce);
+            
+        
+
+        marker_963d38dc7b4b16a7cb931f01f8143ba9.bindPopup(popup_dd0beee424f8820f1e159e921a1adf52)
+        ;
+
+        
+    
+    
+            var marker_dd3fa1004bbbbd0c953dae57336aacd7 = L.marker(
+                [32.92199105306263, -97.11888745466466],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_cb8e4fb07b0aec2d52a1ceda985b2e09 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "8", "textColor": "white"}
+            )
+            marker_dd3fa1004bbbbd0c953dae57336aacd7.setIcon(beautify_icon_cb8e4fb07b0aec2d52a1ceda985b2e09);
+        
+    
+        var popup_9f7d5284ee0de9f83d82c1b8edf34802 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_723c3f581937669e97985a6d2df691de = $(`<div id="html_723c3f581937669e97985a6d2df691de" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 8<br>                                                    <b>Property Name:</b> 2100 Mustang Dr - 33.7 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_9f7d5284ee0de9f83d82c1b8edf34802.setContent(html_723c3f581937669e97985a6d2df691de);
+            
+        
+
+        marker_dd3fa1004bbbbd0c953dae57336aacd7.bindPopup(popup_9f7d5284ee0de9f83d82c1b8edf34802)
+        ;
+
+        
+    
+    
+            var marker_89bf6aed25af6f9f488dfe5b6aea93fc = L.marker(
+                [33.20820703, -96.88530504],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_6e0b2792b63d9a3e6519cf16f8fd4d29 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "9", "textColor": "white"}
+            )
+            marker_89bf6aed25af6f9f488dfe5b6aea93fc.setIcon(beautify_icon_6e0b2792b63d9a3e6519cf16f8fd4d29);
+        
+    
+        var popup_3af355b926ac014fc0d663bb87f5ce53 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_ab75eb6d07b43e708e6b0e7f99f9f218 = $(`<div id="html_ab75eb6d07b43e708e6b0e7f99f9f218" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 9<br>                                                    <b>Property Name:</b> SWC of Rockhill Pkwy and Teel Pkwy - 71.93 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_3af355b926ac014fc0d663bb87f5ce53.setContent(html_ab75eb6d07b43e708e6b0e7f99f9f218);
+            
+        
+
+        marker_89bf6aed25af6f9f488dfe5b6aea93fc.bindPopup(popup_3af355b926ac014fc0d663bb87f5ce53)
+        ;
+
+        
+    
+    
+            var marker_ba82b20694760c0a0879086575bbc668 = L.marker(
+                [32.69310801873457, -96.91184865251071],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_f0ac8a3e3a7ed2cf1a96afe139009f5d = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "10", "textColor": "white"}
+            )
+            marker_ba82b20694760c0a0879086575bbc668.setIcon(beautify_icon_f0ac8a3e3a7ed2cf1a96afe139009f5d);
+        
+    
+        var popup_59f3d6d632ad8bf62348115257db8e83 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_3a5889fb18764242d9e38d7694f4cdf7 = $(`<div id="html_3a5889fb18764242d9e38d7694f4cdf7" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 10<br>                                                    <b>Property Name:</b> 8032 Ledbetter Dr - 25.54 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_59f3d6d632ad8bf62348115257db8e83.setContent(html_3a5889fb18764242d9e38d7694f4cdf7);
+            
+        
+
+        marker_ba82b20694760c0a0879086575bbc668.bindPopup(popup_59f3d6d632ad8bf62348115257db8e83)
+        ;
+
+        
+    
+    
+            var marker_ca119d3aaf676549a6a2593214e82288 = L.marker(
+                [32.74470563, -96.95913871],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_990c30aa197de8bec5b1feb4ad16c667 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "11", "textColor": "white"}
+            )
+            marker_ca119d3aaf676549a6a2593214e82288.setIcon(beautify_icon_990c30aa197de8bec5b1feb4ad16c667);
+        
+    
+        var popup_4d05f3907a2fca8cce4421965bb1c4de = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_7b5b554df0642b882c8baf53ae28d4eb = $(`<div id="html_7b5b554df0642b882c8baf53ae28d4eb" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 11<br>                                                    <b>Property Name:</b> 3010 W Jefferson Blvd - 17.4 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_4d05f3907a2fca8cce4421965bb1c4de.setContent(html_7b5b554df0642b882c8baf53ae28d4eb);
+            
+        
+
+        marker_ca119d3aaf676549a6a2593214e82288.bindPopup(popup_4d05f3907a2fca8cce4421965bb1c4de)
+        ;
+
+        
+    
+    
+            var marker_cb94bbc92f0d831bab6d8be6d71dbb20 = L.marker(
+                [32.8036209, -97.30357791],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_bab450ed11c936db7cb0df58dc6c02e5 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "12", "textColor": "white"}
+            )
+            marker_cb94bbc92f0d831bab6d8be6d71dbb20.setIcon(beautify_icon_bab450ed11c936db7cb0df58dc6c02e5);
+        
+    
+        var popup_477e0ec1b9dcb6df48df5a1239770b7c = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_42e8dc71ebd7e611f6f9acfec52d006a = $(`<div id="html_42e8dc71ebd7e611f6f9acfec52d006a" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 12<br>                                                    <b>Property Name:</b> 2917 Chesser Boyer Rd - 22.34 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_477e0ec1b9dcb6df48df5a1239770b7c.setContent(html_42e8dc71ebd7e611f6f9acfec52d006a);
+            
+        
+
+        marker_cb94bbc92f0d831bab6d8be6d71dbb20.bindPopup(popup_477e0ec1b9dcb6df48df5a1239770b7c)
+        ;
+
+        
+    
+    
+            var marker_5ecf15dbfaf46821535c009f3c290afe = L.marker(
+                [32.94899900426291, -96.98810000323684],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_ec36f19208b6a1d042e554b21de347d1 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "13", "textColor": "white"}
+            )
+            marker_5ecf15dbfaf46821535c009f3c290afe.setIcon(beautify_icon_ec36f19208b6a1d042e554b21de347d1);
+        
+    
+        var popup_b6562b833d05a99776552fca38e70858 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_cf5de4ec6e22adfcd05588710a0c5424 = $(`<div id="html_cf5de4ec6e22adfcd05588710a0c5424" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 13<br>                                                    <b>Property Name:</b> 413 E Belt Line Rd - 10.53 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_b6562b833d05a99776552fca38e70858.setContent(html_cf5de4ec6e22adfcd05588710a0c5424);
+            
+        
+
+        marker_5ecf15dbfaf46821535c009f3c290afe.bindPopup(popup_b6562b833d05a99776552fca38e70858)
+        ;
+
+        
+    
+    
+            var marker_c38739c96d06124778b840adbb86b554 = L.marker(
+                [32.69783441, -97.2454934],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_1e47502f6f1aac62336bcfdbe2e356c6 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "14", "textColor": "white"}
+            )
+            marker_c38739c96d06124778b840adbb86b554.setIcon(beautify_icon_1e47502f6f1aac62336bcfdbe2e356c6);
+        
+    
+        var popup_5ae4c975a2ae6741d3ed6b7a888f34ff = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_28fabbe35d73fed0e532fd755156b756 = $(`<div id="html_28fabbe35d73fed0e532fd755156b756" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 14<br>                                                    <b>Property Name:</b> 4590 Carey St. - 21.68 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_5ae4c975a2ae6741d3ed6b7a888f34ff.setContent(html_28fabbe35d73fed0e532fd755156b756);
+            
+        
+
+        marker_c38739c96d06124778b840adbb86b554.bindPopup(popup_5ae4c975a2ae6741d3ed6b7a888f34ff)
+        ;
+
+        
+    
+    
+            var marker_1cbf914cbf09a02fa8c1e53d04582aa2 = L.marker(
+                [32.6907119, -97.23782292],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_810857f726dda0edbcd517fdb01f04e4 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "15", "textColor": "white"}
+            )
+            marker_1cbf914cbf09a02fa8c1e53d04582aa2.setIcon(beautify_icon_810857f726dda0edbcd517fdb01f04e4);
+        
+    
+        var popup_50551094c26e18806e6f9d16b4b54574 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_83f2017cac61a9fa124ebf14988e5c97 = $(`<div id="html_83f2017cac61a9fa124ebf14988e5c97" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 15<br>                                                    <b>Property Name:</b> 4851 E Loop 820 S - 17 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_50551094c26e18806e6f9d16b4b54574.setContent(html_83f2017cac61a9fa124ebf14988e5c97);
+            
+        
+
+        marker_1cbf914cbf09a02fa8c1e53d04582aa2.bindPopup(popup_50551094c26e18806e6f9d16b4b54574)
+        ;
+
+        
+    
+    
+            var marker_61af9d6b8d593224ab3f20ef059f13b9 = L.marker(
+                [32.97934707, -96.91241652],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_c9aaa12ca4961ff2dd2480373fee835f = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#105BAB", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "16", "textColor": "white"}
+            )
+            marker_61af9d6b8d593224ab3f20ef059f13b9.setIcon(beautify_icon_c9aaa12ca4961ff2dd2480373fee835f);
+        
+    
+        var popup_56d4728f1b369294578ab746545ca9be = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_7a2cec0f06ee50b70e369d6d1aef1326 = $(`<div id="html_7a2cec0f06ee50b70e369d6d1aef1326" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 16<br>                                                    <b>Property Name:</b> 4 Crowley Dr - 5.77 Acres<br>             <b>Status:</b> Closed<br>         </div>`)[0];
+                popup_56d4728f1b369294578ab746545ca9be.setContent(html_7a2cec0f06ee50b70e369d6d1aef1326);
+            
+        
+
+        marker_61af9d6b8d593224ab3f20ef059f13b9.bindPopup(popup_56d4728f1b369294578ab746545ca9be)
+        ;
+
+        
+    
+    
+            var marker_b760470c7e0400942603c41d58121550 = L.marker(
+                [32.567762385067496, -97.31643946221979],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_4db4c4da64ef21b7dcf5718487c3eded = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "17", "textColor": "white"}
+            )
+            marker_b760470c7e0400942603c41d58121550.setIcon(beautify_icon_4db4c4da64ef21b7dcf5718487c3eded);
+        
+    
+        var popup_72ee1b33a71e6f7fd1d950a1526555dc = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_1eb8faaf059ea81e814ebefa03c2da62 = $(`<div id="html_1eb8faaf059ea81e814ebefa03c2da62" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 17<br>                                                    <b>Property Name:</b> Eight Diamonds - 13015 South Fwy - 27 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_72ee1b33a71e6f7fd1d950a1526555dc.setContent(html_1eb8faaf059ea81e814ebefa03c2da62);
+            
+        
+
+        marker_b760470c7e0400942603c41d58121550.bindPopup(popup_72ee1b33a71e6f7fd1d950a1526555dc)
+        ;
+
+        
+    
+    
+            var marker_7e4cab66c359bd1d70cad31bc34e00c1 = L.marker(
+                [32.65060666227332, -97.25394373530604],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_62fabd963d3c13fc62307aeb139d89c9 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "18", "textColor": "white"}
+            )
+            marker_7e4cab66c359bd1d70cad31bc34e00c1.setIcon(beautify_icon_62fabd963d3c13fc62307aeb139d89c9);
+        
+    
+        var popup_7777133b7f928376465f3626e629fdec = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_6f4008860fb74e0355ab8d1800aa11b5 = $(`<div id="html_6f4008860fb74e0355ab8d1800aa11b5" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 18<br>                                                    <b>Property Name:</b> 7100 Anglin Dr - 27.23 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_7777133b7f928376465f3626e629fdec.setContent(html_6f4008860fb74e0355ab8d1800aa11b5);
+            
+        
+
+        marker_7e4cab66c359bd1d70cad31bc34e00c1.bindPopup(popup_7777133b7f928376465f3626e629fdec)
+        ;
+
+        
+    
+    
+            var marker_4f999f5eb32bedbebe91d34997a3d4c2 = L.marker(
+                [32.96601256710447, -97.01281137970453],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_3ff1aa28148be90b42dd388b7250ce12 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "19", "textColor": "white"}
+            )
+            marker_4f999f5eb32bedbebe91d34997a3d4c2.setIcon(beautify_icon_3ff1aa28148be90b42dd388b7250ce12);
+        
+    
+        var popup_9097a21bbbaa7bcc300312666e73ab24 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_11f6fd46debc18859ac686574426c0df = $(`<div id="html_11f6fd46debc18859ac686574426c0df" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 19<br>                                                    <b>Property Name:</b> 296 N Freeport Pkwy - 10.89 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_9097a21bbbaa7bcc300312666e73ab24.setContent(html_11f6fd46debc18859ac686574426c0df);
+            
+        
+
+        marker_4f999f5eb32bedbebe91d34997a3d4c2.bindPopup(popup_9097a21bbbaa7bcc300312666e73ab24)
+        ;
+
+        
+    
+    
+            var marker_e5cb598845b6e3dfb7382139755ae55f = L.marker(
+                [33.16214249976821, -96.56702785878572],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_529aea249c6094a856dc337ee5fe9841 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "20", "textColor": "white"}
+            )
+            marker_e5cb598845b6e3dfb7382139755ae55f.setIcon(beautify_icon_529aea249c6094a856dc337ee5fe9841);
+        
+    
+        var popup_0adaf18da6f1e52a99a192c9cddfd5d8 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_29b5b230277aeee6ef8741c580230e77 = $(`<div id="html_29b5b230277aeee6ef8741c580230e77" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 20<br>                                                    <b>Property Name:</b> 2323 FM 546 - 42.82 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_0adaf18da6f1e52a99a192c9cddfd5d8.setContent(html_29b5b230277aeee6ef8741c580230e77);
+            
+        
+
+        marker_e5cb598845b6e3dfb7382139755ae55f.bindPopup(popup_0adaf18da6f1e52a99a192c9cddfd5d8)
+        ;
+
+        
+    
+    
+            var marker_651643558b8f9f3b0d9045f5bdb47f90 = L.marker(
+                [33.23858999, -96.6132826],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_f7f091b3b50bed2613d46d746dc6dbb4 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "21", "textColor": "white"}
+            )
+            marker_651643558b8f9f3b0d9045f5bdb47f90.setIcon(beautify_icon_f7f091b3b50bed2613d46d746dc6dbb4);
+        
+    
+        var popup_a563d5683b931664dd64e62f4e8dae38 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_df1e8028cae66946013cde5fee28e3d8 = $(`<div id="html_df1e8028cae66946013cde5fee28e3d8" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 21<br>                                                    <b>Property Name:</b> 3991 N McDonald St - 22 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_a563d5683b931664dd64e62f4e8dae38.setContent(html_df1e8028cae66946013cde5fee28e3d8);
+            
+        
+
+        marker_651643558b8f9f3b0d9045f5bdb47f90.bindPopup(popup_a563d5683b931664dd64e62f4e8dae38)
+        ;
+
+        
+    
+    
+            var marker_58adf0d1fb7b6c54dfd3db91a0dab355 = L.marker(
+                [32.583392206328895, -97.3069154666561],
+                {}
+            ).addTo(marker_cluster_e7a0b1b3eff9e698195f3ed9bf21661b);
+        
+    
+            var beautify_icon_5777400023d25ae96e2db0d5a1705320 = new L.BeautifyIcon.icon(
+                {"backgroundColor": "#C10915", "borderColor": "white", "borderWidth": 1, "icon": "location-pin", "iconShape": "marker", "innerIconStyle": "font-size:14px;padding-top:-5px;font-family: Arial, Helvetica, sans-serif", "isAlphaNumericIcon": true, "spin": true, "text": "22", "textColor": "white"}
+            )
+            marker_58adf0d1fb7b6c54dfd3db91a0dab355.setIcon(beautify_icon_5777400023d25ae96e2db0d5a1705320);
+        
+    
+        var popup_ec812c43a91b9b071d7b31a961be7f4b = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_841add9c06420e29670c56ca858ebab3 = $(`<div id="html_841add9c06420e29670c56ca858ebab3" style="width: 100.0%; height: 100.0%;">             <b>Number:</b> 22<br>                                                    <b>Property Name:</b> 715 E Rendon Crowley Rd - 20 Acres<br>             <b>Status:</b> Under Contract<br>         </div>`)[0];
+                popup_ec812c43a91b9b071d7b31a961be7f4b.setContent(html_841add9c06420e29670c56ca858ebab3);
+            
+        
+
+        marker_58adf0d1fb7b6c54dfd3db91a0dab355.bindPopup(popup_ec812c43a91b9b071d7b31a961be7f4b)
+        ;
+
+        
+    
+</script>
+</html>
